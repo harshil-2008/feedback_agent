@@ -1,0 +1,28 @@
+# Environment variables — never commit these
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Temp/backup files
+backup_*.js
+backup_*.html
+backup_*.css
+tmp_*.json
+test_api.py
+test_connection.py
+
+# Database
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db

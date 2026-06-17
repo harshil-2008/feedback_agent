@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Signal Aggregator — Multi‑Platform Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Search across Reddit, Twitter, Instagram, Amazon and more. Get aggregated insights, trends and sentiment analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <!-- ── Ambient Layers ──────────────────────────────────────── -->
+  <div class="ambient-glow"></div>
+  <div class="grid-overlay"></div>
+  <div class="scanline-overlay"></div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       BOOT SEQUENCE OVERLAY
+       ══════════════════════════════════════════════════════════ -->
+  <div class="boot-overlay" id="bootOverlay">
+    <div class="boot-overlay__line boot-overlay__separator" id="bootSep1">════════════════════════════════════════════════</div>
+    <div class="boot-overlay__line" id="boot1"><span class="prompt">&gt;</span> INITIALIZING SIGNAL AGGREGATOR v2.0 <span class="ok">[OK]</span></div>
+    <div class="boot-overlay__line" id="boot2"><span class="prompt">&gt;</span> CONNECTING TO MULTI‑PLATFORM MESH <span class="ok">[OK]</span></div>
+    <div class="boot-overlay__line" id="boot3"><span class="prompt">&gt;</span> LOADING NLP SENTIMENT ENGINE <span class="ok">[OK]</span></div>
+    <div class="boot-overlay__line boot-overlay__separator" id="bootSep2">════════════════════════════════════════════════</div>
+    <div class="boot-overlay__line" id="boot4"><span class="prompt">&gt;</span> REDDIT ADAPTER .................... <span class="accent">STANDBY</span></div>
+    <div class="boot-overlay__line" id="boot5"><span class="prompt">&gt;</span> TWITTER ADAPTER ................... <span class="accent">STANDBY</span></div>
+    <div class="boot-overlay__line" id="boot6"><span class="prompt">&gt;</span> AMAZON ADAPTER .................... <span class="accent">STANDBY</span></div>
+    <div class="boot-overlay__line" id="boot7"><span class="prompt">&gt;</span> INSIGHT ENGINE .................... <span class="ok">ONLINE</span></div>
+    <div class="boot-overlay__line" id="boot8"><span class="prompt">&gt;</span> ALL SYSTEMS OPERATIONAL <span class="typing-cursor"></span></div>
+    <button class="boot-overlay__btn" id="bootEnterBtn">[ ENTER DASHBOARD ]</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       MAIN APP CONTAINER
+       ══════════════════════════════════════════════════════════ -->
+  <div class="app-container" id="appContainer" style="opacity: 0;">
+
+    <!-- ── Status Bar ──────────────────────────────────────── -->
+    <header class="status-bar">
+      <div class="status-bar__brand">
+        <div class="status-bar__brand-icon">◆</div>
+        SIGNAL AGGREGATOR
+      </div>
+      <div class="status-bar__session">SESSION :: <span id="sessionId">—</span></div>
+      <div class="status-bar__right">
+        <div class="status-bar__indicator">
+          <div class="status-bar__dot"></div>
+          LIVE
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar__header">
+        <div class="sidebar__header-label">MODULE</div>
+        <div class="sidebar__header-value">SIGNAL_AGR</div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a class="nav-item active" data-section="section-search" href="#">
+          <span class="nav-item__prefix">01</span>
+          <span class="nav-item__label">Search</span>
+          <span class="nav-item__arrow">▶</span>
+        </a>
+        <a class="nav-item" data-section="section-feedback" href="#">
+          <span class="nav-item__prefix">02</span>
+          <span class="nav-item__label">Feedback</span>
+          <span class="nav-item__arrow">▶</span>
+        </a>
+        <a class="nav-item" data-section="section-themes" href="#">
+          <span class="nav-item__prefix">03</span>
+          <span class="nav-item__label">Themes</span>
+          <span class="nav-item__arrow">▶</span>
+        </a>
+        <a class="nav-item" data-section="section-sentiment" href="#">
+          <span class="nav-item__prefix">04</span>
+          <span class="nav-item__label">Sentiment</span>
+          <span class="nav-item__arrow">▶</span>
+        </a>
+        <a class="nav-item" data-section="section-system" href="#">
+          <span class="nav-item__prefix">05</span>
+          <span class="nav-item__label">System</span>
+          <span class="nav-item__arrow">▶</span>
+        </a>
+      </nav>
+
+      <div class="sidebar__readouts">
+        <div class="readout-box">
+          <span class="readout-box__label">SEQ</span>
+          <span class="readout-box__value" id="readoutSeq">00000</span>
+        </div>
+        <div class="readout-box">
+          <span class="readout-box__label">NET</span>
+          <span class="readout-box__value" id="readoutNet">00000</span>
+        </div>
+      </div>
+
+      <div class="sidebar__code-scroll">
+        <div class="code-scroll__content">
+          0x4A9E :: INIT_AGGREGATOR<br>
+          0x00F0 :: MESH_CONNECT<br>
+          0x8B7E :: ADAPTER_LOAD<br>
+          0xE040 :: INSIGHT_RUN<br>
+          0x2D7A :: CACHE_PRIME<br>
+          0xC8D6 :: RATE_LIMIT_SET<br>
+          0x5A6A :: QUERY_PARSE<br>
+          0x4A9E :: INIT_AGGREGATOR<br>
+          0x00F0 :: MESH_CONNECT<br>
+          0x8B7E :: ADAPTER_LOAD<br>
+          0xE040 :: INSIGHT_RUN<br>
+          0x2D7A :: CACHE_PRIME<br>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ────────────────────────────────────── -->
+    <div class="main-content" id="mainContent">
+
+      <!-- Terminal Header Messages -->
+      <div class="terminal-header">
+        <div class="terminal-header__messages">
+          <div class="terminal-msg" style="animation-delay: 0.1s"><span class="prompt">&gt;</span> <span class="ok">SYSTEM</span> <span class="label-text">Multi‑platform intelligence dashboard online</span></div>
+          <div class="terminal-msg" style="animation-delay: 0.3s"><span class="prompt">&gt;</span> <span class="label-text">8 adapters loaded — search aggregation ready</span></div>
+          <div class="terminal-msg" style="animation-delay: 0.5s"><span class="prompt">&gt;</span> <span class="locked">ACCESS</span> <span class="label-text">Rate limit: 5 queries / hour</span></div>
+        </div>
+        <div class="terminal-header__status">
+          <div class="terminal-header__status-label">STATUS</div>
+          <div class="terminal-header__status-value">● OPERATIONAL</div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           SECTION: SEARCH
+           ════════════════════════════════════════════════════ -->
+      <section id="section-search">
+        <div class="terminal-panel">
+          <div class="corner-bl"></div>
+          <div class="corner-tr"></div>
+          <div class="panel-title-bar">
+            <div class="panel-title-bar__icon" style="background: var(--cyan-accent);"></div>
+            <h2>MULTI‑PLATFORM SEARCH</h2>
+            <span class="panel-title-bar__seq">AGR::001</span>
+          </div>
+
+          <div class="search-input-row">
+            <input type="text" id="searchInput" class="search-input" placeholder="Enter search term (e.g. watches, headphones, sneakers)..." />
+            <button id="searchBtn" class="terminal-btn search-btn">
+              <span class="search-btn__icon">⬡</span> SEARCH
+            </button>
+          </div>
+
+          <div class="search-platforms">
+            <span class="platform-tag" data-platform="reddit">REDDIT</span>
+            <span class="platform-tag" data-platform="discord">DISCORD</span>
+            <span class="platform-tag" data-platform="twitter">TWITTER</span>
+            <span class="platform-tag" data-platform="instagram">INSTAGRAM</span>
+            <span class="platform-tag" data-platform="facebook">FACEBOOK</span>
+            <span class="platform-tag" data-platform="amazon">AMAZON</span>
+            <span class="platform-tag" data-platform="ebay">EBAY</span>
+            <span class="platform-tag" data-platform="google">GOOGLE</span>
+          </div>
+
+          <!-- Search spinner -->
+          <div class="spinner" id="searchSpinner"></div>
+
+          <!-- Rate limit warning -->
+          <div class="status-msg status-msg--error" id="searchRateMsg" style="display:none;"></div>
+
+          <!-- Search results area -->
+          <div id="searchResults" style="display:none;">
+            <!-- Insights Row -->
+            <div class="search-insights" id="searchInsights">
+              <div class="panel-title-bar" style="margin-top: 20px;">
+                <div class="panel-title-bar__icon" style="background: var(--purple-accent);"></div>
+                <h3>AGGREGATED INSIGHTS</h3>
+              </div>
+
+              <div class="insights-grid">
+                <div class="insight-card">
+                  <div class="insight-card__label">TOTAL RESULTS</div>
+                  <div class="insight-card__value" id="insightTotal">0</div>
+                </div>
+                <div class="insight-card">
+                  <div class="insight-card__label">SOURCES</div>
+                  <div class="insight-card__value insight-card__value--sm" id="insightSources">—</div>
+                </div>
+                <div class="insight-card">
+                  <div class="insight-card__label">AVG PRICE</div>
+                  <div class="insight-card__value" id="insightPrice">—</div>
+                </div>
+              </div>
+
+              <!-- Sentiment Pie -->
+              <div class="content-grid" style="margin-top: 16px;">
+                <div class="terminal-panel" style="border:none; background: rgba(6,10,26,0.6);">
+                  <div class="panel-title-bar">
+                    <div class="panel-title-bar__icon" style="background: var(--success);"></div>
+                    <h3>SENTIMENT DISTRIBUTION</h3>
+                  </div>
+                  <div class="chart-container" style="height: 220px;">
+                    <canvas id="searchSentimentChart"></canvas>
+                  </div>
+                </div>
+                <div class="terminal-panel" style="border:none; background: rgba(6,10,26,0.6);">
+                  <div class="panel-title-bar">
+                    <div class="panel-title-bar__icon" style="background: var(--magenta);"></div>
+                    <h3>TOP COLOURS MENTIONED</h3>
+                  </div>
+                  <div class="chart-container" style="height: 220px;">
+                    <canvas id="searchColorsChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Keywords -->
+              <div class="panel-title-bar" style="margin-top: 16px;">
+                <div class="panel-title-bar__icon"></div>
+                <h3>TOP KEYWORDS</h3>
+              </div>
+              <div class="keyword-cloud" id="keywordCloud"></div>
+            </div>
+
+            <!-- Results list -->
+            <div class="panel-title-bar" style="margin-top: 20px;">
+              <div class="panel-title-bar__icon" style="background: var(--cyan-accent);"></div>
+              <h3>RAW RESULTS</h3>
+              <span class="panel-title-bar__seq" id="resultCount">0 ITEMS</span>
+            </div>
+            <div class="results-list" id="resultsList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════
+           SECTION: FEEDBACK
+           ════════════════════════════════════════════════════ -->
+      <section id="section-feedback">
+        <div class="terminal-panel">
+          <div class="corner-bl"></div>
+          <div class="corner-tr"></div>
+          <div class="panel-title-bar">
+            <div class="panel-title-bar__icon"></div>
+            <h2>SIGNAL INPUT</h2>
+            <span class="panel-title-bar__seq">SIG::001</span>
+          </div>
+          <textarea id="feedbackContent" class="feedback-textarea" rows="4" placeholder="&gt; Enter feedback signal data here..."></textarea>
+          <button id="submitBtn" class="terminal-btn">[ TRANSMIT FEEDBACK ]</button>
+          <div class="status-msg" id="statusMsg"></div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════
+           SECTION: THEMES & SENTIMENT
+           ════════════════════════════════════════════════════ -->
+      <section id="section-themes">
+        <div class="terminal-panel">
+          <div class="corner-bl"></div>
+          <div class="corner-tr"></div>
+          <div class="panel-title-bar">
+            <div class="panel-title-bar__icon"></div>
+            <h2>TOP THEMES</h2>
+            <span class="panel-title-bar__seq">THM::002</span>
+          </div>
+          <div class="spinner" id="loadingSpinner1"></div>
+          <div class="chart-container">
+            <canvas id="themesChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-sentiment">
+        <div class="terminal-panel">
+          <div class="corner-bl"></div>
+          <div class="corner-tr"></div>
+          <div class="panel-title-bar">
+            <div class="panel-title-bar__icon" style="background: var(--cyan-accent);"></div>
+            <h2>SENTIMENT OVER TIME</h2>
+            <span class="panel-title-bar__seq">SNT::003</span>
+          </div>
+          <div class="spinner" id="loadingSpinner2"></div>
+          <div class="chart-container">
+            <canvas id="sentimentChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════
+           SECTION: SYSTEM READOUTS
+           ════════════════════════════════════════════════════ -->
+      <section id="section-system">
+        <div class="terminal-panel">
+          <div class="corner-bl"></div>
+          <div class="corner-tr"></div>
+          <div class="panel-title-bar">
+            <div class="panel-title-bar__icon" style="background: var(--purple-accent);"></div>
+            <h2>SYSTEM READOUTS</h2>
+            <span class="panel-title-bar__seq">SYS::004</span>
+          </div>
+          <div class="system-readouts-row">
+            <div class="system-readout-card">
+              <div class="system-readout-card__label">TOTAL SIGNALS</div>
+              <div class="system-readout-card__value" id="sysSignals">0</div>
+              <div class="system-readout-card__sub">LIFETIME COUNT</div>
+            </div>
+            <div class="system-readout-card">
+              <div class="system-readout-card__label">ACTIVE THEMES</div>
+              <div class="system-readout-card__value" id="sysThemes">0</div>
+              <div class="system-readout-card__sub">PATTERN GROUPS</div>
+            </div>
+            <div class="system-readout-card">
+              <div class="system-readout-card__label">AVG SENTIMENT</div>
+              <div class="system-readout-card__value" id="sysSentiment">N/A</div>
+              <div class="system-readout-card__sub">COMPOUND SCORE</div>
+            </div>
+            <div class="system-readout-card">
+              <div class="system-readout-card__label">UPTIME</div>
+              <div class="system-readout-card__value" id="sysUptime">00:00:00</div>
+              <div class="system-readout-card__sub">HH:MM:SS</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /main-content -->
+
+    <!-- ── Footer ──────────────────────────────────────────── -->
+    <footer class="app-footer">
+      <span>SIGNAL AGGREGATOR v2.0</span>
+      <span>8 ADAPTERS LOADED</span>
+    </footer>
+
+  </div><!-- /app-container -->
+
+  <script src="/app.js"></script>
+</body>
+
+</html>

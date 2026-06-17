@@ -1,0 +1,13 @@
+asyncpg
+python-dotenv
+sentence-transformers
+vaderSentiment
+apscheduler
+pydantic
+aiohttp
+
+# optional for testing
+testcontainers[postgres]
+pytest
+
+psycopg2-binary

@@ -1,3 +1,6 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
 asyncpg
 python-dotenv
 sentence-transformers
@@ -5,9 +8,8 @@ vaderSentiment
 apscheduler
 pydantic
 aiohttp
+psycopg2-binary
 
 # optional for testing
 testcontainers[postgres]
 pytest
-
-psycopg2-binary

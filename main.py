@@ -3,8 +3,14 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from api.routes import router as api_router
+from storage.database import init_db
 
 app = FastAPI(title="Feedback Agent API")
+
+# Auto-create database tables on startup
+@app.on_event("startup")
+def on_startup():
+    init_db()
 
 # Serve static assets (CSS, JS) under /static
 app.mount("/static", StaticFiles(directory="frontend", html=False), name="static")
